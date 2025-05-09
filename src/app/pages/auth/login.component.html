@@ -1,14 +1,7 @@
-<div class="login-container">
-  <h2>Giriş Yap</h2>
-  <form (ngSubmit)="login()">
-    <label>
-      Email:
-      <input type="email" [(ngModel)]="email" name="email" required />
-    </label>
-    <label>
-      Şifre:
-      <input type="password" [(ngModel)]="password" name="password" required />
-    </label>
-    <button type="submit">Giriş</button>
-  </form>
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg">
+    <h2 class="text-3xl font-bold mb-8 text-center">Giriş Yap</h2>
+
+    <app-login-form />
+  </div>
 </div>
