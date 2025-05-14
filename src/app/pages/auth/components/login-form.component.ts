@@ -18,6 +18,12 @@ export class LoginFormComponent {
   private loginService = inject(LoginService);
   private router = inject(Router);
 
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this.loginService.loginUser();
+
+  }
   loginForm = this.fb.group({
     email: this.fb.control('', {
       nonNullable: true,
@@ -42,14 +48,14 @@ export class LoginFormComponent {
     this.error.set(null);
 
     const { email, password } = this.loginForm.getRawValue();
-    this.loginService.login(email, password).subscribe(success => {
-      this.loading.set(false);
+    // this.loginService.login(email, password).subscribe(success => {
+    //   this.loading.set(false);
 
-      if (success) {
-        this.router.navigate(['/dashboard']);
-      } else {
-        this.error.set('Kullanıcı adı veya şifre hatalı.');
-      }
-    });
+    //   if (success) {
+    //     this.router.navigate(['/dashboard']);
+    //   } else {
+    //     this.error.set('Kullanıcı adı veya şifre hatalı.');
+    //   }
+    // });
   }
 }
