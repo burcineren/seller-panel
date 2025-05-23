@@ -1,38 +1,25 @@
-import { Component, inject, signal } from '@angular/core';
-import {
-  FormBuilder,
-  Validators,
-  ReactiveFormsModule
-} from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { Component, signal, inject } from '@angular/core';
+import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LoginService } from '../login.service';
+import { CommonModule } from '@angular/common';
+import { RedirectService } from '../../../core/services/redirect.service';
 
 @Component({
   selector: 'app-login-form',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login-form.component.html',
 })
 export class LoginFormComponent {
   private fb = inject(FormBuilder);
-  private loginService = inject(LoginService);
+  private loginSvc = inject(LoginService);
   private router = inject(Router);
+  private redirectSvc = inject(RedirectService);
 
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    this.loginService.loginUser();
-
-  }
   loginForm = this.fb.group({
-    email: this.fb.control('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.email],
-    }),
-    password: this.fb.control('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required],
   });
 
   loading = signal(false);
@@ -40,22 +27,30 @@ export class LoginFormComponent {
 
   onSubmit() {
     if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
       return;
     }
 
     this.loading.set(true);
     this.error.set(null);
 
-    const { email, password } = this.loginForm.getRawValue();
-    // this.loginService.login(email, password).subscribe(success => {
-    //   this.loading.set(false);
+    const { email, password } = this.loginForm.value;
 
-    //   if (success) {
-    //     this.router.navigate(['/dashboard']);
-    //   } else {
-    //     this.error.set('Kullanıcı adı veya şifre hatalı.');
-    //   }
-    // });
+    this.loginSvc
+      .loginWithCredentials(email!, password!)
+      .subscribe({
+        next: user => {
+          this.loading.set(false);
+
+          const target = '/dashboard';
+          this.router.navigate([target]).then(() => {
+
+            this.redirectSvc.setUrl('/dashboard');
+          });
+        },
+        error: err => {
+          this.loading.set(false);
+          this.error.set(err?.message || 'Giriş yapılamadı');
+        }
+      });
   }
 }

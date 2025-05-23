@@ -1,21 +1,24 @@
 {
   "users": [
     {
-      "mail": "tes@test.com",
-      "pasword": "12345",
-      "id": "ee5d"
-    },
-    {
-      "id": "7b5f"
-    },
-    {
-      "id": "e5d6"
-    },
-    {
-      "id": "3bac"
-    },
-    {
-      "id": "edf4"
+      "id": 1,
+      "username": "test@hotmail.com",
+      "password": "password123",
+      "role": "salesman"
     }
-  ]
+  ],
+  "stores": [
+    {
+      "id": 1,
+      "name": "Acme Store",
+      "ownerId": 1
+    },
+    {
+      "id": 2,
+      "name": "Beta Shop",
+      "ownerId": 2
+    }
+  ],
+  "products": [],
+  "orders": []
 }
