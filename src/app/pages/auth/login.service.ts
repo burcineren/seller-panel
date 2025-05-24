@@ -31,7 +31,10 @@ export class LoginService extends UserHandlerService {
                     }
                     return users[0];
                 }),
-                tap(user => super.login(user.id))
+                tap(user => {
+                    super.login(user.id);
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                })
             );
     }
 }

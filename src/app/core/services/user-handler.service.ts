@@ -22,6 +22,13 @@ export class UserHandlerService {
   constructor(http: HttpClient, @Inject(API_BASE) apiBase: string) {
     this.http = http;
     this.apiBase = apiBase;
+    const raw = localStorage.getItem('currentUser');
+    if (raw) {
+      try {
+        const user: User = JSON.parse(raw);
+        this._currentUser.set(user);
+      } catch { }
+    }
     this.loadAll();
   }
 
@@ -37,6 +44,7 @@ export class UserHandlerService {
 
   logout() {
     this._currentUser.set(null);
+    localStorage.removeItem('currentUser');
   }
 
   save(input: Partial<User> & { id?: number }) {
