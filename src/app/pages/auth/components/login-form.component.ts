@@ -1,9 +1,8 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, computed } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginService } from '../login.service';
 import { CommonModule } from '@angular/common';
-import { RedirectService } from '../../../core/services/redirect.service';
+import { AuthHandlerService } from '../../../core/services/auth-handler.service';
 
 @Component({
   selector: 'app-login-form',
@@ -13,44 +12,32 @@ import { RedirectService } from '../../../core/services/redirect.service';
 })
 export class LoginFormComponent {
   private fb = inject(FormBuilder);
-  private loginSvc = inject(LoginService);
-  private router = inject(Router);
-  private redirectSvc = inject(RedirectService);
+  authHandlerService = inject(AuthHandlerService);
+
 
   loginForm = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
+    username: ['', Validators.required],
     password: ['', Validators.required],
   });
 
   loading = signal(false);
   error = signal<string | null>(null);
 
+
   onSubmit() {
     if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
       return;
     }
 
     this.loading.set(true);
     this.error.set(null);
 
-    const { email, password } = this.loginForm.value;
+    const { username, password } = this.loginForm.value;
 
-    this.loginSvc
-      .loginWithCredentials(email!, password!)
-      .subscribe({
-        next: user => {
-          this.loading.set(false);
+    this.authHandlerService.login(username!, password!).subscribe({
 
-          const target = '/dashboard';
-          this.router.navigate([target]).then(() => {
-
-            this.redirectSvc.setUrl('/dashboard');
-          });
-        },
-        error: err => {
-          this.loading.set(false);
-          this.error.set(err?.message || 'Giriş yapılamadı');
-        }
-      });
+    })
   }
+
 }

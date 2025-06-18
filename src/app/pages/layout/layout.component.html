@@ -1,0 +1,48 @@
+<p-menubar>
+  <ng-template pTemplate="start">
+    <div class="flex items-center space-x-2">
+      <span class="text-xl font-bold text-gray-800">LOGO</span>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="end">
+    <ul class="flex items-center space-x-4 m-0 p-0 list-none">
+      @for (item of rightItems; track item) {
+      <li>
+        <button
+          pButton
+          type="button"
+          class="p-button-text text-gray-700 hover:bg-gray-100"
+          (click)="
+            item.command && item.command({ originalEvent: $event, item: item })
+          "
+        >
+          <i [ngClass]="item.icon" class="pi pi-fw mr-1"></i>
+          <span>{{ item.label }}</span>
+        </button>
+      </li>
+      }
+
+      <li>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-sign-out"
+          label="Çıkış Yap"
+          class="ml-4 p-button-danger"
+          (click)="onLogout()"
+        ></button>
+      </li>
+    </ul>
+  </ng-template>
+</p-menubar>
+
+<div class="p-4">
+  <p-card class="mb-6">
+    <ng-template pTemplate="header">
+      <div class="text-lg font-semibold text-gray-700">Panel İçeriği</div>
+    </ng-template>
+    <ng-template pTemplate="content">
+      <p>İçerikler</p>
+    </ng-template>
+  </p-card>
+</div>

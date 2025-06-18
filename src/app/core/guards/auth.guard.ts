@@ -6,7 +6,7 @@ export const authGuard: CanActivateFn = () => {
     const userSvc = inject(UserHandlerService);
     const router = inject(Router);
 
-    return userSvc.currentUser()
+    return userSvc._currentUser()
         ? true
         : (router.parseUrl('/login') as UrlTree);
 };

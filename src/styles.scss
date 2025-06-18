@@ -7,3 +7,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: "Arial", sans-serif;
+  background: transparent !important;
+  background: #fff !important;
+  color: #000;
+  width: 100vw;
+  overflow-x: hidden;
+}
+.p-dialog-content {
+  overflow-y: visible !important;
+}
+.p-menubar {
+  display: flex;
+  align-items: center;
+  background: #fff !important;
+  border: 1px solid var(--p-menubar-border-color);
+  border-radius: var(--p-menubar-border-radius);
+  color: var(--p-menubar-color);
+  padding: var(--p-menubar-padding);
+  gap: var(--p-menubar-gap);
+}
+.p-card {
+  background: #fff !important;
+  box-shadow: 0 10px 0px 0 rgba(255, 255, 255, 0),
+    0 1px 2px -1px rgba(0, 0, 0, 0) !important;
+}

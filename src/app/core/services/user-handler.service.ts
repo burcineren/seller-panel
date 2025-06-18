@@ -1,27 +1,19 @@
-import { Injectable, computed, signal, Inject } from '@angular/core';
+import { Injectable, computed, signal, Inject, inject } from '@angular/core';
+import { User } from '../models/user.model';
+import { RequestHandlerService, GetRequestConfig } from './request-handler.service';
+import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { API_BASE } from '../api/api.module';
 
-export interface User {
-  id: number;
-  username: string;
-  role: 'salesman' | 'manager' | 'customer';
-}
+
 
 @Injectable({ providedIn: 'root' })
-export class UserHandlerService {
-  protected http: HttpClient;
-  protected apiBase: string;
+export class UserHandlerService extends RequestHandlerService {
+  _users = signal<User[]>([]);
+  _currentUser = signal<User | null>(null);
 
-  private _users = signal<User[]>([]);
-  readonly users = computed(() => this._users());
-
-  private _currentUser = signal<User | null>(null);
-  readonly currentUser = computed(() => this._currentUser());
-
-  constructor(http: HttpClient, @Inject(API_BASE) apiBase: string) {
-    this.http = http;
-    this.apiBase = apiBase;
+  constructor() {
+    super();
     const raw = localStorage.getItem('currentUser');
     if (raw) {
       try {
@@ -29,38 +21,33 @@ export class UserHandlerService {
         this._currentUser.set(user);
       } catch { }
     }
-    this.loadAll();
   }
 
-  loadAll() {
-    this.http.get<User[]>(`${this.apiBase}/users`)
-      .subscribe(list => this._users.set(list));
-  }
+  // loadAll(): void {
+  //   this.requestHandler.getAllUsers().subscribe(list => {
+  //     this._users.set(list);
+  //   });
+  // }
 
-  login(userId: number) {
-    const u = this.users().find(x => x.id == userId) || null;
-    this._currentUser.set(u);
-  }
-
-  logout() {
-    this._currentUser.set(null);
-    localStorage.removeItem('currentUser');
-  }
-
-  save(input: Partial<User> & { id?: number }) {
-    if (input.id) {
-      this.http.put<User>(`${this.apiBase}/users/${input.id}`, input)
-        .subscribe(u => {
-          this._users.update(list =>
-            list.map(x => x.id === u.id ? u : x)
-          );
-          if (this.currentUser()?.id === u.id) {
-            this._currentUser.set(u);
-          }
-        });
-    } else {
-      this.http.post<User>(`${this.apiBase}/users`, input)
-        .subscribe(u => this._users.update(list => [...list, u]));
+  getAllUsers(): void {
+    const url = `${this.apiBase}/users`;
+    const GetRequestConfig: GetRequestConfig = {
+      url: 'users',
     }
+    this.get<User[]>(GetRequestConfig).subscribe({
+      next: (users) => {
+        this._users.set(users);
+      },
+      error: (err) => {
+        console.error('Error fetching users:', err);
+      }
+    });
+
   }
+
+
+  //requestler bu servisten yönetilcek Post işeminde confirmation 
+  // parametreye bağlı olarak gösterilecek, delete de confirmation alacak, 
+  // bütün request hataları bu servis üzerinde handler edilecek 
+
 }

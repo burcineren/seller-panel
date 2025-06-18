@@ -1,0 +1,48 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "test@hotmail.com",
+      "password": "password123",
+      "role": "manager"
+    },
+    {
+      "id": 2,
+      "username": "bob.salesman@example.com",
+      "password": "password123",
+      "role": "salesman"
+    },
+    {
+      "id": 3,
+      "username": "carol.salesman@example.com",
+      "password": "password123",
+      "role": "salesman"
+    },
+    {
+      "id": 4,
+      "username": "dave.customer@example.com",
+      "password": "password123",
+      "role": "customer"
+    },
+    {
+      "id": 5,
+      "username": "eve.customer@example.com",
+      "password": "password123",
+      "role": "customer"
+    }
+  ],
+  "stores": [
+    {
+      "id": 1,
+      "name": "Acme Store",
+      "ownerId": 1
+    },
+    {
+      "id": 2,
+      "name": "Beta Shop",
+      "ownerId": 2
+    }
+  ],
+  "products": [],
+  "orders": []
+}

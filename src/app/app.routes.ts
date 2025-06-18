@@ -1,25 +1,36 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/auth/login.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { layoutComponent } from './pages/layout/layout.component';
 import { ProductsComponent } from './pages/products/products.component';
 
 import { authGuard } from './core/guards/auth.guard';
-import { managerGuard } from './core/guards/manager.guard';
+import { permissionGuard } from './core/guards/permission.guard';
+import { OrdersComponent } from './pages/orders/orders.component';
+import { SalesComponent } from './pages/sales/sales.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
 
     {
-        path: 'dashboard',
-        component: DashboardComponent,
-        canActivate: [authGuard],
+        path: 'layout',
+        component: layoutComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'products',
         component: ProductsComponent,
-        canActivate: [authGuard, managerGuard],  // also checks role
+        canActivate: [authGuard, permissionGuard]
     },
-
-    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-    { path: '**', redirectTo: 'dashboard' }
+    {
+        path: 'orders',
+        component: OrdersComponent,
+        canActivate: [authGuard, permissionGuard]
+    },
+    {
+        path: 'sales',
+        component: SalesComponent,
+        canActivate: [authGuard, permissionGuard]
+    },
+    { path: '', redirectTo: 'layout', pathMatch: 'full' },
+    { path: '**', redirectTo: 'layout' }
 ];
