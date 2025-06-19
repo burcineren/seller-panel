@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // import { LoginService } from '../auth/login.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MenubarModule } from 'primeng/menubar';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -16,11 +16,12 @@ import { AuthHandlerService } from '../../core/services/auth-handler.service';
     ButtonModule,
     CardModule,
     ToastModule,
+    RouterModule,
     ConfirmDialogModule,],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
 })
-export class layoutComponent {
+export class LayoutComponent {
   router = inject(Router);
   authHandlerService = inject(AuthHandlerService);
   rightItems: MenuItem[] = [

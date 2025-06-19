@@ -7,12 +7,18 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
+// ...
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), providePrimeNG({
-    theme: {
-      preset: Aura
-    }
-  }), provideRouter(routes), provideHttpClient(), provideAnimationsAsync(), ConfirmationService,
-    MessageService]
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    providePrimeNG({ theme: { preset: Aura } }),
+    provideRouter(routes),
+    provideHttpClient(),
+    provideAnimationsAsync(),
+    importProvidersFrom(ToastModule),
+    ConfirmationService,
+    MessageService
+  ]
 };

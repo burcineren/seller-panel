@@ -23,11 +23,7 @@ export class UserHandlerService extends RequestHandlerService {
     }
   }
 
-  // loadAll(): void {
-  //   this.requestHandler.getAllUsers().subscribe(list => {
-  //     this._users.set(list);
-  //   });
-  // }
+
 
   getAllUsers(): void {
     const url = `${this.apiBase}/users`;
