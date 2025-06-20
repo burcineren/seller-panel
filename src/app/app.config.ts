@@ -8,6 +8,8 @@ import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 
 // ...
 export const appConfig: ApplicationConfig = {
@@ -16,6 +18,10 @@ export const appConfig: ApplicationConfig = {
     providePrimeNG({ theme: { preset: Aura } }),
     provideRouter(routes),
     provideHttpClient(),
+    importProvidersFrom(
+      ReactiveFormsModule,
+      BrowserModule
+    ),
     provideAnimationsAsync(),
     importProvidersFrom(ToastModule),
     ConfirmationService,

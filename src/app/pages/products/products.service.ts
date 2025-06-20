@@ -12,4 +12,5 @@ export class ProductsService extends RequestHandlerService {
   getProducts() {
     return this.get({ url: 'products' });
   }
+
 }

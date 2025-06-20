@@ -18,29 +18,21 @@ export const permissionGuard: CanActivateFn = (route, state): boolean | UrlTree 
         return router.createUrlTree(['/layout']);
     }
 
-    const targetUrl = state.url;
-    let allowed = false;
-    switch (current.role) {
-        case 'customer':
-            if (targetUrl.startsWith('/products')) {
-                allowed = true;
-            }
-            break;
-        case 'salesman':
-            if (targetUrl.startsWith('/orders')) {
-                allowed = true;
-            }
-            break;
-        case 'manager':
-            allowed = true;
-            break;
-    }
-
-    if (allowed) {
+    if (current.role === 'manager') {
         return true;
     }
 
-    // Rol uygun değilse uyarı göster ve layout’a yönlendir
+    const url = state.url;
+    if (current.role === 'customer') {
+        if (url.startsWith('/products')) {
+            return true;
+        }
+    } else if (current.role === 'salesman') {
+        if (url.startsWith('/orders')) {
+            return true;
+        }
+    }
+
     messageService.add({
         severity: 'warn',
         summary: 'Yetki Yetersiz',

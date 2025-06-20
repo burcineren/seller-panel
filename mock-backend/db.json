@@ -4,7 +4,7 @@
       "id": 1,
       "username": "test@hotmail.com",
       "password": "password123",
-      "role": "customer"
+      "role": "manager"
     },
     {
       "id": 2,
