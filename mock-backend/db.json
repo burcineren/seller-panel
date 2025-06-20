@@ -43,6 +43,37 @@
       "ownerId": 2
     }
   ],
-  "products": [],
+  "products": [
+    {
+      "id": 1,
+      "name": "Acme Widget",
+      "description": "High-quality widget from Acme Store.",
+      "price": 19.99,
+      "stock": 150,
+      "storeId": 1,
+      "category": "Widgets",
+      "imageUrl": "https://picsum.photos/200"
+    },
+    {
+      "id": 2,
+      "name": "Beta Gadget",
+      "description": "Durable gadget sold by Beta Shop.",
+      "price": 29.5,
+      "stock": 80,
+      "storeId": 2,
+      "category": "Gadgets",
+      "imageUrl": "https://picsum.photos/200"
+    },
+    {
+      "id": 3,
+      "name": "Acme Gizmo",
+      "description": "Multi-purpose gizmo, popular item.",
+      "price": 9.75,
+      "stock": 200,
+      "storeId": 1,
+      "category": "Gizmos",
+      "imageUrl": "https://picsum.photos/200"
+    }
+  ],
   "orders": []
 }
