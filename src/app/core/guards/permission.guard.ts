@@ -4,11 +4,13 @@ import { MessageService } from 'primeng/api';
 import { UserHandlerService } from '../services/user-handler.service';
 
 export const permissionGuard: CanActivateFn = (route, state): boolean | UrlTree => {
-    const userSvc = inject(UserHandlerService);
+    const userService = inject(UserHandlerService);
     const router = inject(Router);
     const messageService = inject(MessageService);
 
-    const current = userSvc._currentUser();
+    const current = userService._currentUser();
+    const url = state.url;
+
     if (!current) {
         messageService.add({
             severity: 'warn',
@@ -22,12 +24,13 @@ export const permissionGuard: CanActivateFn = (route, state): boolean | UrlTree 
         return true;
     }
 
-    const url = state.url;
     if (current.role === 'customer') {
         if (url.startsWith('/products')) {
             return true;
         }
-    } else if (current.role === 'salesman') {
+    }
+
+    if (current.role === 'salesman') {
         if (url.startsWith('/orders')) {
             return true;
         }

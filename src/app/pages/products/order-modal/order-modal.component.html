@@ -1,113 +1,112 @@
-<div class="card flex justify-center">
-  <p-dialog
-    [(visible)]="visible"
-    [modal]="true"
-    [style]="{ width: '30rem' }"
-    (onHide)="onHide()"
-  >
-    <ng-template #header>
-      <div class="inline-flex items-center justify-center gap-2">
-        <span class="font-bold whitespace-nowrap">Bilgi Güncelle</span>
-      </div>
-    </ng-template>
+<p-dialog
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{ width: '30rem' }"
+  (onHide)="onHide()"
+>
+  <ng-template #header>
+    <div class="inline-flex items-center justify-center gap-2">
+      <span class="font-bold whitespace-nowrap">Sipariş Bilgileri</span>
+    </div>
+  </ng-template>
 
-    <ng-template pTemplate="content">
-      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-        <div class="flex flex-col md:flex-row gap-6">
-          <div class="flex flex-col gap-4 flex-auto">
-            <div class="flex items-center gap-4">
-              <label for="firstName" class="font-semibold w-24">Ad</label>
-              <input
-                pInputText
-                id="firstName"
-                formControlName="firstName"
-                class="flex-auto"
-                placeholder="Adınızı girin"
-              />
-            </div>
-            <div
-              *ngIf="
-                userForm.get('firstName')?.touched &&
-                userForm.get('firstName')?.invalid
-              "
-              class="text-red-600 text-sm ml-24"
-            >
-              <div *ngIf="userForm.get('firstName')?.errors?.['required']">
-                Ad gerekli.
-              </div>
-              <div *ngIf="userForm.get('firstName')?.errors?.['maxlength']">
-                Çok uzun.
-              </div>
-            </div>
-
-            <div class="flex items-center gap-4">
-              <label for="lastName" class="font-semibold w-24">Soyad</label>
-              <input
-                pInputText
-                id="lastName"
-                formControlName="lastName"
-                class="flex-auto"
-                placeholder="Soyadınızı girin"
-              />
-            </div>
-            <div
-              *ngIf="
-                userForm.get('lastName')?.touched &&
-                userForm.get('lastName')?.invalid
-              "
-              class="text-red-600 text-sm ml-24"
-            >
-              <div *ngIf="userForm.get('lastName')?.errors?.['required']">
-                Soyad gerekli.
-              </div>
-              <div *ngIf="userForm.get('lastName')?.errors?.['maxlength']">
-                Çok uzun.
-              </div>
-            </div>
-
-            <div class="flex items-start gap-4">
-              <label for="address" class="font-semibold w-24 pt-1">Adres</label>
-              <textarea
-                pInputTextarea
-                id="address"
-                formControlName="address"
-                class="flex-auto"
-                rows="3"
-                placeholder="Adresinizi girin"
-              ></textarea>
-            </div>
-            <div
-              *ngIf="
-                userForm.get('address')?.touched &&
-                userForm.get('address')?.invalid
-              "
-              class="text-red-600 text-sm ml-24"
-            >
-              <div *ngIf="userForm.get('address')?.errors?.['required']">
-                Adres gerekli.
-              </div>
-              <div *ngIf="userForm.get('address')?.errors?.['maxlength']">
-                Çok uzun.
-              </div>
-            </div>
+  <ng-template pTemplate="content">
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <div class="flex flex-col gap-4">
+        <div class="flex items-center gap-4">
+          <label for="firstName" class="font-semibold w-24">Ad</label>
+          <input
+            pInputText
+            id="firstName"
+            formControlName="firstName"
+            class="flex-auto"
+            placeholder="Adınız"
+          />
+        </div>
+        <div
+          *ngIf="
+            userForm.get('firstName')?.touched &&
+            userForm.get('firstName')?.invalid
+          "
+          class="text-red-600 text-sm ml-24"
+        >
+          <div *ngIf="userForm.get('firstName')?.errors?.['required']">
+            Ad gerekli.
           </div>
-
-          <div class="flex flex-col items-center gap-4">
-            <button
-              pButton
-              type="submit"
-              label="Kaydet"
-              icon="pi pi-check"
-              class="w-full"
-              [disabled]="userForm.invalid"
-            ></button>
+          <div *ngIf="userForm.get('firstName')?.errors?.['maxlength']">
+            Çok uzun.
           </div>
         </div>
-      </form>
-    </ng-template>
 
-    <ng-template #footer>
-      <p-button label="İptal" [text]="true" (click)="onCancel()"></p-button>
-    </ng-template>
-  </p-dialog>
-</div>
+        <div class="flex items-center gap-4">
+          <label for="lastName" class="font-semibold w-24">Soyad</label>
+          <input
+            pInputText
+            id="lastName"
+            formControlName="lastName"
+            class="flex-auto"
+            placeholder="Soyadınız"
+          />
+        </div>
+        <div
+          *ngIf="
+            userForm.get('lastName')?.touched &&
+            userForm.get('lastName')?.invalid
+          "
+          class="text-red-600 text-sm ml-24"
+        >
+          <div *ngIf="userForm.get('lastName')?.errors?.['required']">
+            Soyad gerekli.
+          </div>
+          <div *ngIf="userForm.get('lastName')?.errors?.['maxlength']">
+            Çok uzun.
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4">
+          <label for="address" class="font-semibold w-24 pt-1">Adres</label>
+          <textarea
+            pInputTextarea
+            id="address"
+            formControlName="address"
+            class="flex-auto"
+            rows="3"
+            placeholder="Adresiniz"
+          ></textarea>
+        </div>
+        <div
+          *ngIf="
+            userForm.get('address')?.touched && userForm.get('address')?.invalid
+          "
+          class="text-red-600 text-sm ml-24"
+        >
+          <div *ngIf="userForm.get('address')?.errors?.['required']">
+            Adres gerekli.
+          </div>
+          <div *ngIf="userForm.get('address')?.errors?.['maxlength']">
+            Çok uzun.
+          </div>
+        </div>
+
+        <div class="flex flex-col items-center gap-4">
+          <button
+            pButton
+            type="submit"
+            label="Sipariş Ver"
+            icon="pi pi-check"
+            class="w-full"
+            [disabled]="userForm.invalid"
+          ></button>
+          <button
+            pButton
+            type="button"
+            label="İptal"
+            icon="pi pi-times"
+            class="w-full p-button-secondary"
+            (click)="onCancel()"
+          ></button>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+</p-dialog>

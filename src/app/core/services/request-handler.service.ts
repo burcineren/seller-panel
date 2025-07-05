@@ -139,6 +139,62 @@ export class RequestHandlerService {
             }
         });
     }
-    //put u yaz 
+    put<T>(url: string, body: any, confirmationRequired?: boolean): Observable<T> {
+        return new Observable((observer) => {
+            const fullUrl = `${this.apiBase}/${url}`;
+            if (confirmationRequired) {
+                this.putWithConfirmation<T>(fullUrl, body, observer);
+            } else {
+                this.putWithoutConfirmation<T>(fullUrl, body, observer);
+            }
+        });
+    }
+    protected putWithConfirmation<T>(url: string, body: any, observer: Subscriber<T>): void {
+        this.confirmationService.confirm({
+            message: 'Bu işlemi onaylıyor musunuz?',
+            header: "Güncelle",
+            icon: 'pi pi-exclamation-triangle',
+            rejectButtonProps: {
+                label: 'İptal',
+                outlined: true,
+                severity: 'secondary'
+            },
+            acceptButtonProps: {
+                label: 'Güncelle',
+                severity: 'success',
+            },
+            accept: () => {
+                this.http.put<T>(url, body).subscribe({
+                    next: (data: T) => {
+                        observer.next(data);
+                        observer.complete();
+                    },
+                    error: (err) => {
+                        observer.error(err);
+                    },
+                    complete: () => {
+                        observer.complete();
+                    }
+                });
+            },
+            reject: () => {
+                observer.complete();
+            }
+        });
+    }
+    protected putWithoutConfirmation<T>(url: string, body: any, observer: Subscriber<T>): void {
+        this.http.put<T>(url, body).subscribe({
+            next: (data: T) => {
+                observer.next(data);
+                observer.complete();
+            },
+            error: (err) => {
+                observer.error(err);
+            },
+            complete: () => {
+                observer.complete();
+            }
+        });
+    }
 
 }

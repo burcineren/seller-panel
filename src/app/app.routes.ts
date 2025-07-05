@@ -7,32 +7,39 @@ import { authGuard } from './core/guards/auth.guard';
 import { permissionGuard } from './core/guards/permission.guard';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { SalesComponent } from './pages/sales/sales.component';
+import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     {
         path: '',
         component: LayoutComponent,
-        canActivate: [authGuard], // veya children’a guard ekle
+        canActivate: [authGuard],
         children: [
+            {
+                path: 'home',
+                component: HomeComponent,
+                canActivate: []
+            },
             {
                 path: 'products',
                 component: ProductsComponent,
-                canActivate: [authGuard, permissionGuard]
+                canActivate: [permissionGuard]
             },
             {
                 path: 'orders',
                 component: OrdersComponent,
-                canActivate: [authGuard, permissionGuard]
+                canActivate: [permissionGuard]
             },
             {
                 path: 'sales',
                 component: SalesComponent,
-                canActivate: [authGuard, permissionGuard]
+                canActivate: [permissionGuard]
             },
             { path: '', redirectTo: '', pathMatch: 'full' },
             { path: '**', redirectTo: '' }
         ]
     },
+
 
 ];

@@ -4,18 +4,10 @@ import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
-
-interface Order {
-  id: number;
-  productName: string;
-  status: 'new' | 'approved' | 'rejected';
-  customerName: string;
-  orderDate: string;
-  totalAmount: number;
-  address: string;
-  productStock: number;
-  selectedStoreId?: number | null;
-}
+import { OrderService } from './order.service';
+import { Order } from '../../core/models/order.model';
+import { OrderStatus, OrderStatusLookup } from '../../core/enums/order-status.enum';
+import { MessageService } from 'primeng/api';
 
 interface Store {
   id: number;
@@ -37,77 +29,68 @@ interface Store {
 })
 
 export class OrdersComponent {
+
+  OrderStatus = OrderStatus;
+  constructor(private orderService: OrderService, private messageService: MessageService) {
+    this.orderService.loadOrders().subscribe();
+  }
   stores: Store[] = [
     { id: 1, name: 'Acme Store' },
     { id: 2, name: 'Beta Shop' },
     { id: 3, name: 'Gamma Market' }
   ];
-
-  orders: Order[] = [
-    {
-      id: 1,
-      productName: 'Acme Widget',
-      status: 'new',
-      customerName: 'Ali Veli',
-      orderDate: new Date().toISOString(),
-      totalAmount: 19.99,
-      address: 'İstanbul, Türkiye',
-      productStock: 150,
-      selectedStoreId: null
-    },
-    {
-      id: 2,
-      productName: 'Beta Gadget',
-      status: 'new',
-      customerName: 'Ayşe Yılmaz',
-      orderDate: new Date().toISOString(),
-      totalAmount: 29.5,
-      address: 'Ankara, Türkiye',
-      productStock: 0,
-      selectedStoreId: null
-    },
-    {
-      id: 3,
-      productName: 'Gamma Gizmo',
-      status: 'approved',
-      customerName: 'Mehmet Can',
-      orderDate: new Date().toISOString(),
-      totalAmount: 45.0,
-      address: 'İzmir, Türkiye',
-      productStock: 20,
-      selectedStoreId: 2
-    },
-    {
-      id: 4,
-      productName: 'Delta Device',
-      status: 'rejected',
-      customerName: 'Fatma Kara',
-      orderDate: new Date().toISOString(),
-      totalAmount: 55.75,
-      address: 'Bursa, Türkiye',
-      productStock: 5,
-      selectedStoreId: null
-    }
-  ];
-  trackById(index: number, item: Order) {
-    return item.id;
+  get orders(): Order[] {
+    return this.orderService._orders$().filter(
+      o => o.status === OrderStatus.PENDING ||
+        o.status === OrderStatus.PROCESSING ||
+        o.status === OrderStatus.CANCELLED
+    );
+  }
+  getStatusLabel(status: OrderStatus): string {
+    return OrderStatusLookup.find(opt => opt.id === status)?.label ?? status.toString();
   }
 
   onApprove(order: Order) {
-    console.log('Onaya Gönder tıklandı:', order);
-    if (order.productStock > 0 && order.selectedStoreId) {
-      order.status = 'approved';
-    }
+    this.orderService.approveOrder(order).subscribe({
+      next: () => this.messageService.add({
+        severity: 'success',
+        summary: 'Onaya Gönderildi',
+        detail: 'Sipariş onaya gönderildi!'
+      }),
+      error: () => this.messageService.add({
+        severity: 'error',
+        summary: 'Hata',
+        detail: 'Sipariş onaya gönderilemedi.'
+      })
+    });
   }
 
   onReject(order: Order) {
-    console.log('Reddet tıklandı:', order);
-    order.status = 'rejected';
+    this.orderService.rejectOrder(order).subscribe({
+      next: () => this.messageService.add({
+        severity: 'success',
+        summary: 'Reddedildi',
+        detail: 'Sipariş reddedildi.'
+      })
+    });
   }
 
+  onStoreChange(order: Order) {
+    this.orderService.changeOrderStore(order).subscribe({
+      next: () => this.messageService.add({
+        severity: 'success',
+        summary: 'Mağaza Güncellendi',
+        detail: 'Mağaza seçimi kaydedildi.'
+      })
+    });
+  }
   onDelete(order: Order) {
     console.log('Sil tıklandı:', order);
-    this.orders = this.orders.filter(o => o.id !== order.id);
+    this.orderService.removeOrder(order.id).subscribe({
+      next: () => console.log('Sipariş başarıyla silindi'),
+      error: err => console.error('Silme hatası:', err)
+    });
   }
+
 
 }

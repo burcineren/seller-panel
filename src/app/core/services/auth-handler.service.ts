@@ -10,24 +10,22 @@ import { Router } from "@angular/router";
     providedIn: 'root'
 })
 export class AuthHandlerService extends RequestHandlerService {
-
-    constructor() {
-        super();
-    }
+    router = inject(Router);
     loading = signal(false);
     baseUrl: string = environment.apiBaseUrl;
     isDisabled = computed(() => this.loading());
     _error: WritableSignal<string | null> = signal<string | null>(null);
-    router = inject(Router);
+
     _currentUser: WritableSignal<User | null> = signal<User | null>(null);
+    constructor() {
+        super();
+    }
     login(username: string, password: string): Observable<User> {
         return this.post<User>(`users/login`, { username, password }).pipe(
             map((user) => {
 
                 localStorage.setItem('currentUser', JSON.stringify(user));
                 this._currentUser.set(user);
-                console.log("this._currentUser::", this._currentUser);
-                // this.loading.set(false);
                 this.router.navigate(['/layout'])
                 this.messageService.add({
                     severity: 'success',

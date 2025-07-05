@@ -1,55 +1,57 @@
 <div class="mb-4 p-8 flex flex-wrap justify-center">
-  <ng-container *ngFor="let product of products; trackBy: trackById">
-    <p-card class="mr-4 mb-4">
-      <ng-template pTemplate="header">
-        <img
-          alt="Product Image"
-          class="w-full"
-          [src]="product.imageUrl"
-          style="object-fit: cover; height: 200px"
-        />
-      </ng-template>
+  @for (product of products(); track product.id) {
+  <p-card class="mr-4 mb-4">
+    <ng-template pTemplate="header">
+      <img
+        alt="Product Image"
+        class="w-full"
+        [src]="product.imageUrl"
+        style="object-fit: cover; height: 200px"
+      />
+    </ng-template>
 
-      <ng-template pTemplate="title">
-        {{ product.name }}
-      </ng-template>
-      <ng-template pTemplate="subtitle">
-        {{ product.category }}
-      </ng-template>
-      <ng-template pTemplate="description">
-        {{ product.description }}
-      </ng-template>
+    <ng-template pTemplate="title">
+      {{ product.name }}
+    </ng-template>
+    <ng-template pTemplate="subtitle">
+      {{ product.category }}
+    </ng-template>
+    <ng-template pTemplate="description">
+      {{ product.description }}
+    </ng-template>
 
-      <ng-template pTemplate="content">
-        <p class="text-black">{{ product.description }}</p>
-        <p><strong>Fiyat:</strong> {{ product.price | currency : "TRY" }}</p>
-        <p class="text-black">
-          <strong>Stok:</strong>
-          <span
-            [ngClass]="{
-              'text-red-600': product.stock === 0,
-              'text-green-600': product.stock > 0
-            }"
-          >
-            {{ product.stock }} adet
-          </span>
-        </p>
-      </ng-template>
+    <ng-template pTemplate="content">
+      <p class="text-black">{{ product.description }}</p>
+      <p><strong>Fiyat:</strong> {{ product.price | currency : "TRY" }}</p>
+      <p class="text-black">
+        <strong>Stok:</strong>
+        <span
+          [ngClass]="{
+            'text-red-600': product.stock === 0,
+            'text-green-600': product.stock > 0
+          }"
+        >
+          {{ product.stock }} adet
+        </span>
+      </p>
+    </ng-template>
 
-      <ng-template pTemplate="footer">
-        <button
-          pButton
-          label="Sipariş Et"
-          icon="pi pi-shopping-cart"
-          [disabled]="product.stock === 0"
-          (click)="openOrderModal(product)"
-        ></button>
-      </ng-template>
-    </p-card>
-  </ng-container>
+    <ng-template pTemplate="footer">
+      <button
+        pButton
+        label="Sipariş Et"
+        icon="pi pi-shopping-cart"
+        [disabled]="product.stock === 0"
+        (click)="openModal(product)"
+      ></button>
+    </ng-template>
+  </p-card>
+  }
 </div>
 
 <app-order-modal
   [visible]="visible()"
-  (visibleChange)="visible.set($event)"
+  (visibleChange)="closeModal()"
+  [product]="selectedProduct()"
+  (orderCreated)="onOrderCreated($event)"
 ></app-order-modal>

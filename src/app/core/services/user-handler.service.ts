@@ -11,6 +11,11 @@ import { HttpClient } from '@angular/common/http';
 export class UserHandlerService extends RequestHandlerService {
   _users = signal<User[]>([]);
   _currentUser = signal<User | null>(null);
+  private _loadingUsers = signal<boolean>(false);
+  readonly loadingUsers = this._loadingUsers.asReadonly();
+
+  private _usersError = signal<string | null>(null);
+  readonly usersError = this._usersError.asReadonly();
 
   constructor() {
     super();
@@ -26,20 +31,27 @@ export class UserHandlerService extends RequestHandlerService {
 
 
   getAllUsers(): void {
-    const url = `${this.apiBase}/users`;
-    const GetRequestConfig: GetRequestConfig = {
+    this._loadingUsers.set(true);
+    this._usersError.set(null);
+
+    const config: GetRequestConfig = {
       url: 'users',
-    }
-    this.get<User[]>(GetRequestConfig).subscribe({
+    };
+
+    this.get<User[]>(config).subscribe({
       next: (users) => {
         this._users.set(users);
       },
       error: (err) => {
         console.error('Error fetching users:', err);
+        this._usersError.set('Kullanıcılar yüklenemedi');
+      },
+      complete: () => {
+        this._loadingUsers.set(false);
       }
     });
-
   }
+
 
 
   //requestler bu servisten yönetilcek Post işeminde confirmation 

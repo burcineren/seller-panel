@@ -1,1 +1,101 @@
-<p>sales works!</p>
+<div class="flex mb-4 gap-2">
+  <button
+    pButton
+    label="Onaydaki Satışlar"
+    class="p-button-outlined"
+    [class.p-button-success]="activeTab === 'pending'"
+    (click)="activeTab = 'pending'"
+  ></button>
+  <button
+    pButton
+    label="Satış Raporu"
+    class="p-button-outlined"
+    [class.p-button-success]="activeTab === 'report'"
+    (click)="activeTab = 'report'"
+  ></button>
+</div>
+
+<p-table
+  *ngIf="activeTab === 'pending'"
+  [value]="orders"
+  dataKey="id"
+  [paginator]="false"
+  responsiveLayout="scroll"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Ürün adı</th>
+      <th>Müşteri adı soyadı</th>
+      <th>Sipariş Tarihi</th>
+      <th>Sipariş Tutarı</th>
+      <th>Adres</th>
+      <th>Mağaza</th>
+      <th>Satıcı Adı</th>
+      <th>İşlemler</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-order>
+    <tr>
+      <td>{{ order.productName }}</td>
+      <td>{{ order.customerName }}</td>
+      <td>{{ order.orderDate | date : "dd.MM.yyyy HH:mm" }}</td>
+      <td>{{ order.totalAmount | currency : "TRY" }}</td>
+      <td>{{ order.address }}</td>
+      <td>{{ getStoreName(order.selectedStoreId) }}</td>
+      <td>{{ order.customerName ?? "-" }}</td>
+      <td>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-check"
+          class="p-button-sm p-mr-2"
+          label="Onayla"
+          (click)="onApprove(order)"
+        ></button>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-times"
+          class="p-button-sm p-button-danger"
+          label="Reddet"
+          (click)="onReject(order)"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="8" class="text-center">Bekleyen satış bulunamadı.</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<!-- Satış Raporu Chart -->
+<div
+  *ngIf="activeTab === 'report'"
+  class="grid grid-cols-1 md:grid-cols-2 gap-6"
+>
+  <div class="shadow rounded p-4 border">
+    <h4 class="text-lg mb-2 font-semibold text-center">
+      Ürün Bazlı Toplam Satış Tutarı
+    </h4>
+    <p-chart
+      type="bar"
+      [data]="chartData.bar"
+      [options]="chartOptionsBar"
+      styleClass="h-64 w-full"
+    ></p-chart>
+  </div>
+
+  <div class="shadow rounded p-4 border">
+    <h4 class="text-lg mb-2 font-semibold text-center">
+      Ürün Bazlı Satış Adedi
+    </h4>
+    <p-chart
+      type="doughnut"
+      [data]="chartData.pie"
+      [options]="chartOptionsPie"
+      styleClass="h-64 w-full"
+    ></p-chart>
+  </div>
+</div>

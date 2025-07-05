@@ -6,35 +6,40 @@
 >
   <ng-template pTemplate="header">
     <tr>
-      <th>Ürün adı</th>
-      <th>Ürün Statüsü</th>
-      <th>Müşteri adı soyadı</th>
+      <th>Ürün Adı</th>
+      <th>Durum</th>
+      <th>Müşteri</th>
       <th>Sipariş Tarihi</th>
-      <th>Sipariş Tutarı</th>
+      <th>Tutar</th>
       <th>Adres</th>
       <th>Mağaza</th>
       <th>İşlemler</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-order let-i="rowIndex">
+
+  <ng-template pTemplate="body" let-order>
     <tr>
       <td>{{ order.productName }}</td>
+
       <td>
         <span
           [ngClass]="{
-            'text-green-600': order.status === 'approved',
-            'text-red-600': order.status === 'rejected',
-            'text-blue-600': order.status === 'new'
+            'text-green-600': order.status === OrderStatus.SOLD,
+            'text-red-600': order.status === OrderStatus.CANCELLED,
+            'text-blue-600': order.status === OrderStatus.PENDING
           }"
+          class="font-bold"
         >
-          {{ order.status | uppercase }}
+          {{ getStatusLabel(order.status) }}
         </span>
       </td>
+
       <td>{{ order.customerName }}</td>
       <td>{{ order.orderDate | date : "dd.MM.yyyy HH:mm" }}</td>
       <td>{{ order.totalAmount | currency : "TRY" }}</td>
       <td>{{ order.address }}</td>
-      <td style="min-width: 150px">
+
+      <td class="min-w-[150px]">
         <p-dropdown
           [options]="stores"
           optionLabel="name"
@@ -42,43 +47,38 @@
           [(ngModel)]="order.selectedStoreId"
           placeholder="Mağaza seç"
           [filter]="true"
-        >
-        </p-dropdown>
+          appendTo="body"
+          (onChange)="onStoreChange(order)"
+        ></p-dropdown>
       </td>
-      <td style="min-width: 200px">
+
+      <td class="min-w-[200px] flex gap-2">
         <button
           pButton
           type="button"
-          label="Onaya Gönder"
           icon="pi pi-check"
-          class="p-button-sm p-mr-2"
+          label="Onaya Gönder"
+          class="p-button-sm"
           (click)="onApprove(order)"
           [disabled]="
             !order.selectedStoreId ||
             order.productStock === 0 ||
-            order.status !== 'new'
+            order.status !== OrderStatus.PENDING
           "
         ></button>
+
         <button
           pButton
           type="button"
-          label="Reddet"
-          icon="pi pi-times"
-          class="p-button-sm p-button-danger p-mr-2"
-          (click)="onReject(order)"
-          [disabled]="order.status !== 'new'"
-        ></button>
-        <button
-          pButton
-          type="button"
-          label="Sil"
           icon="pi pi-trash"
+          label="Sil"
           class="p-button-sm p-button-secondary"
           (click)="onDelete(order)"
         ></button>
       </td>
     </tr>
   </ng-template>
+
   <ng-template pTemplate="emptymessage">
     <tr>
       <td colspan="8" class="text-center">Hiç sipariş yok.</td>

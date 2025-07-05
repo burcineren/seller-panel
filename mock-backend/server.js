@@ -45,7 +45,23 @@ app.post("/users/logout", (req, res) => {
   return res.json({ message: "Çıkış işlemi başarılı" });
 });
 
-// Diğer CRUD route’ları
+app.post("/orders", (req, res) => {
+  try {
+    const order = req.body;
+    console.log("POST /orders/approve body:", order);
+
+    if (!order || !order.productId || !order.customerName) {
+      return res.status(400).json({ message: "Sipariş bilgileri eksik" });
+    }
+    const newOrder = router.db.get("orders").insert(order).write();
+    console.log("Yeni sipariş kaydedildi:", newOrder);
+
+    return res.status(201).json(newOrder);
+  } catch (error) {
+    console.error("Sipariş kaydında hata:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+});
 app.use(router);
 
 app.listen(3000, () => {

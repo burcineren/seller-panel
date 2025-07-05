@@ -75,5 +75,138 @@
       "imageUrl": "https://picsum.photos/200"
     }
   ],
-  "orders": []
+  "orders": [
+    {
+      "id": 1751107177420,
+      "productId": 2,
+      "productName": "Beta Gadget",
+      "status": 3,
+      "customerName": "test Eren",
+      "orderDate": "2025-06-28T10:39:37.420Z",
+      "totalAmount": 29.5,
+      "address": "istanbul\nistanbul",
+      "productStock": 80,
+      "selectedStoreId": 2
+    },
+    {
+      "id": 1751111369852,
+      "productId": 1,
+      "productName": "Acme Widget",
+      "status": 3,
+      "customerName": "Elif Eren",
+      "orderDate": "2025-06-28T11:49:29.852Z",
+      "totalAmount": 19.99,
+      "address": "istanbul\nistanbul",
+      "productStock": 150,
+      "selectedStoreId": 3
+    },
+    {
+      "id": 1751111871189,
+      "productId": 3,
+      "productName": "Acme Gizmo",
+      "status": 3,
+      "customerName": "burçin test eren",
+      "orderDate": "2025-06-28T11:57:51.189Z",
+      "totalAmount": 9.75,
+      "address": "istanbul\nistanbul",
+      "productStock": 200,
+      "selectedStoreId": 2
+    },
+    {
+      "id": 1751142263937,
+      "productId": 2,
+      "productName": "Beta Gadget",
+      "status": 3,
+      "customerName": "Burçin Eren",
+      "orderDate": "2025-06-28T20:24:23.937Z",
+      "totalAmount": 29.5,
+      "address": "Güneşli",
+      "productStock": 80,
+      "selectedStoreId": 2
+    },
+    {
+      "id": 1751146892502,
+      "productId": 2,
+      "productName": "Beta Gadget",
+      "status": 2,
+      "customerName": "test Eren",
+      "orderDate": "2025-06-28T21:41:32.502Z",
+      "totalAmount": 29.5,
+      "address": "Güneşli",
+      "productStock": 80,
+      "selectedStoreId": 1
+    },
+    {
+      "id": 1751149288057,
+      "productId": 2,
+      "productName": "Beta Gadget",
+      "status": 1,
+      "customerName": "Burçin Eren",
+      "orderDate": "2025-06-28T22:21:28.057Z",
+      "totalAmount": 29.5,
+      "address": "Güneşli",
+      "productStock": 80,
+      "selectedStoreId": 2
+    },
+    {
+      "id": 1751149823032,
+      "productId": 2,
+      "productName": "Beta Gadget",
+      "status": 1,
+      "customerName": "yasemin eren",
+      "orderDate": "2025-06-28T22:30:23.033Z",
+      "totalAmount": 29.5,
+      "address": "malatya",
+      "productStock": 80,
+      "selectedStoreId": 2
+    },
+    {
+      "id": 1751186457830,
+      "productId": 2,
+      "productName": "Beta Gadget",
+      "status": 2,
+      "customerName": "songül Eren",
+      "orderDate": "2025-06-29T08:40:57.830Z",
+      "totalAmount": 29.5,
+      "address": "Güneşli",
+      "productStock": 80,
+      "selectedStoreId": 2
+    },
+    {
+      "id": 1751186732727,
+      "productId": 2,
+      "productName": "Beta Gadget",
+      "status": 3,
+      "customerName": "Mehmet Eren",
+      "orderDate": "2025-06-29T08:45:32.727Z",
+      "totalAmount": 29.5,
+      "address": "Güneşli",
+      "productStock": 80,
+      "selectedStoreId": 1
+    },
+    {
+      "id": 1751187962300,
+      "productId": 1,
+      "productName": "Acme Widget",
+      "status": 4,
+      "customerName": "Cihan Tamyıldırım",
+      "orderDate": "2025-06-29T09:06:02.300Z",
+      "totalAmount": 19.99,
+      "address": "izmir",
+      "productStock": 150,
+      "selectedStoreId": 2
+    },
+    {
+      "id": 1751748636543,
+      "productId": 2,
+      "productName": "Beta Gadget",
+      "status": 1,
+      "customerName": "Burçin Eren",
+      "orderDate": "2025-07-05T20:50:36.543Z",
+      "totalAmount": 29.5,
+      "address": "Güneşli",
+      "productStock": 80,
+      "selectedStoreId": 2
+    }
+  ]
 }
